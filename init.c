@@ -1,7 +1,5 @@
 #include <p32xxxx.h>
 #include <plib.h>
-#include <peripheral/ports.h>
-#include <peripheral/timer.h>
 #include "panel.h"
 #include "fgv.h"
 #include <stdbool.h>

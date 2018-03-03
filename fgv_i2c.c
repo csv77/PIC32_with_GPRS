@@ -3,22 +3,21 @@
 #include "panel.h"
 #include "fgv.h"
 
-extern I2C_STATUS state;
-extern unsigned int H0_rH_x2;
-extern unsigned int H1_rH_x2;
-extern unsigned int T0_degC_x8;
-extern unsigned int T1_degC_x8;
-extern int H0_T0_OUT;
-extern int H1_T0_OUT;
-extern int T0_OUT;
-extern int T1_OUT;
-extern float H0_RH;
-extern float H1_RH;
-extern float T0_degC;
-extern float T1_degC;
+I2C_STATUS state;
+unsigned int H0_rH_x2;
+unsigned int H1_rH_x2;
+unsigned int T0_degC_x8;
+unsigned int T1_degC_x8;
+int H0_T0_OUT;
+int H1_T0_OUT;
+int T0_OUT;
+int T1_OUT;
+float H0_RH;
+float H1_RH;
+float T0_degC;
+float T1_degC;
 extern float T;
 extern float RH;
-extern unsigned char adat[16];
 
 void I2CInit(void) {                                               //I2C konfigurálás
     I2CConfigure(HTS_221, 0);

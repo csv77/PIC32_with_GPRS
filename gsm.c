@@ -1,7 +1,5 @@
 #include <p32xxxx.h>
 #include <plib.h>
-#include <proc/p32mx460f512l.h>
-#include <peripheral/timer.h>
 #include "panel.h"
 #include "fgv.h"
 #include <stdbool.h>
@@ -10,7 +8,6 @@ void GetResponse(char *buffer, int timeout) {
     timeout *= 1000;
     long j = 0;
     unsigned char data;
-//    T2Init32bit(256, timeout);
     while(1) {
         while(!UARTReceivedDataIsAvailable(UART_ID) && j < timeout) {
             j++;
@@ -20,10 +17,8 @@ void GetResponse(char *buffer, int timeout) {
             *buffer = data;
             buffer++;
             j = 0;
-//            WriteTimer23(0);
         }
         else {
-//            CloseTimer23();
             return;
         }
     }

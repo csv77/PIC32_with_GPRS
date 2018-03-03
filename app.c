@@ -2,29 +2,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <plib.h>
-#include <peripheral/ports.h>
 #include "panel.h"
 #include "system.h"
 #include "fgv.h"
 #include <stdbool.h>
 
-I2C_STATUS state;
-unsigned int H0_rH_x2;
-unsigned int H1_rH_x2;
-unsigned int T0_degC_x8;
-unsigned int T1_degC_x8;
-int H0_T0_OUT;
-int H1_T0_OUT;
-int T0_OUT;
-int T1_OUT;
-float H0_RH;
-float H1_RH;
-float T0_degC;
-float T1_degC;
 float T;
 float RH;
-unsigned char adat[16];
-char menu;
 unsigned char rsp1[100] = "";
 unsigned char rsp2[100] = "";
 unsigned char rsp3[100] = "";
@@ -55,8 +39,7 @@ void main (void) {
                 HTS221Calibration();
                 UARTInit();
                 GSMStart();
-                TRHCalc();
-
+                
                 Wait(10000);
                 LED1On();
 
@@ -87,20 +70,35 @@ void main (void) {
                 SendATCommand("AT+QISTAT");
                 GetResponse(rsp14, 200);
 
-                SendATCommand("AT+QISEND=4");
-                GetResponse(rsp9, 200);
+                while(1) {
+                    if(SW2 == 0) {
+                        Wait(1);
+                        if(SW2 == 1) {
+                            TRHCalc();
+                            
+                            SendATCommand("AT+QISEND=4");
+                            GetResponse(rsp9, 200);
 
-                SendDataFloat(T);
-                GetResponse(rsp10, 200);
-                Wait(2000);
+                            SendDataFloat(T);
+                            GetResponse(rsp10, 200);
+                            Wait(2000);
 
-                SendATCommand("AT+QISEND=4");
-                GetResponse(rsp9, 200);
+                            SendATCommand("AT+QISEND=4");
+                            GetResponse(rsp9, 200);
 
-                SendDataFloat(RH);
-                GetResponse(rsp10, 200);
-                Wait(2000);
-
+                            SendDataFloat(RH);
+                            GetResponse(rsp10, 200);
+                            Wait(2000);
+                        }
+                    }
+                    if(SW1 == 0) {
+                        Wait(1);
+                        if(SW1 == 1) {
+                            break;
+                        }
+                    }
+                }
+                
                 SendATCommand("AT+QISACK");
                 GetResponse(rsp11, 200),
 
@@ -111,7 +109,6 @@ void main (void) {
                 GetResponse(rsp13, 200);
                 
                 LED1Off();
-//                while(1);
             }
         }
     }
