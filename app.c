@@ -42,98 +42,78 @@ unsigned char rsp14[100] = "";
 GSM_STATES gsm_state;
 
 void main (void) {
-    mJTAGPortEnable(0);
-    LedInit();
-    ButtonInit();
-    
-    I2CInit();
-    HTS221Init();
-    HTS221Calibration();
-    UARTInit();
-    GSMStart();
-    TRHCalc();
-    
-    Wait(5000);
-    LED1On();
-        
-    SendATCommand("AT");
-    GetResponse(rsp1, 200);
-    
-    SendATCommand("AT+CREG?");
-    GetResponse(rsp2, 200);
-    
-    SendATCommand("AT+QIMODE=0");
-    GetResponse(rsp3, 200);
-    
-    SendATCommand("AT+QICSGP=1,\"internet.telekom\"");
-    GetResponse(rsp4, 400);
-    
-    SendATCommand("AT+QIREGAPP");
-    GetResponse(rsp5, 400);
-    
-    SendATCommand("AT+QIACT");
-    GetResponse(rsp6, 400);
-    
-    SendATCommand("AT+QIDNSIP=1");
-    GetResponse(rsp7, 400);
+    while(1) {
+        if(SW1 == 0) {
+            Wait(1);
+            if(SW1 == 1) {
+                mJTAGPortEnable(0);
+                LedInit();
+                ButtonInit();
 
-    SendATCommand("AT+QIOPEN=\"TCP\",\"vocsabi.asuscomm.com\",\"2048\"");
-    GetResponse(rsp8, 800);
+                I2CInit();
+                HTS221Init();
+                HTS221Calibration();
+                UARTInit();
+                GSMStart();
+                TRHCalc();
 
-    SendATCommand("AT+QISTAT");
-    GetResponse(rsp14, 200);
-    
-    SendATCommand("AT+QISEND=4");
-    GetResponse(rsp9, 200);
-    
-//    float value = 2.42f;
-        
-    SendDataFloat(T);
-    GetResponse(rsp10, 200);
-    Wait(5000);
-   
-    SendATCommand("AT+QISEND=4");
-    GetResponse(rsp9, 200);
-    
-    SendDataFloat(RH);
-    GetResponse(rsp10, 200);
-    Wait(5000);
-    
-    SendATCommand("AT+QISACK");
-    GetResponse(rsp11, 200),
-    
-    SendATCommand("AT+QICLOSE");
-    GetResponse(rsp12, 200);
-    
-    SendATCommand("AT+QIDEACT");
-    GetResponse(rsp13, 200);
-    while(1);
-//    char message[] = "Test message\n";
-//    SendSMS(message);
-//    
-//    SendATCommand("AT+CMGF=1");
-//    getString(rsp4, 16);
-//    
-//    SendATCommand("AT+CMGS=\"+36306205338\"");
-//    getString(rsp5, 27);
-//    
-//    SendSMS("Teszt");
-//    getString(rsp6, 100);
-    
-//    while(1){
-//        TRHCalc();
-//        menu=GetChar();
-//        switch(menu){
-//            case 't':
-////                SendDataBuffer("Homerseklet: ", strlen("Homerseklet: "));
-//                SendTorH(T);
-//                break;
-//            case 'h':
-////                SendDataBuffer("Paratartalom: ", strlen("Paratartalom: "));
-//                SendTorH(RH);
-//                break;
-//        }
-//    }
+                Wait(10000);
+                LED1On();
 
+                SendATCommand("AT");
+                GetResponse(rsp1, 200);
+
+                SendATCommand("AT+CREG?");
+                GetResponse(rsp2, 200);
+
+                SendATCommand("AT+QIMODE=0");
+                GetResponse(rsp3, 200);
+
+                SendATCommand("AT+QICSGP=1,\"internet.telekom\"");
+                GetResponse(rsp4, 400);
+
+                SendATCommand("AT+QIREGAPP");
+                GetResponse(rsp5, 400);
+
+                SendATCommand("AT+QIACT");
+                GetResponse(rsp6, 400);
+
+                SendATCommand("AT+QIDNSIP=1");
+                GetResponse(rsp7, 400);
+
+                SendATCommand("AT+QIOPEN=\"TCP\",\"vocsabi.asuscomm.com\",\"2048\"");
+                GetResponse(rsp8, 800);
+
+                SendATCommand("AT+QISTAT");
+                GetResponse(rsp14, 200);
+
+                SendATCommand("AT+QISEND=4");
+                GetResponse(rsp9, 200);
+
+                SendDataFloat(T);
+                GetResponse(rsp10, 200);
+                Wait(2000);
+
+                SendATCommand("AT+QISEND=4");
+                GetResponse(rsp9, 200);
+
+                SendDataFloat(RH);
+                GetResponse(rsp10, 200);
+                Wait(2000);
+
+                SendATCommand("AT+QISACK");
+                GetResponse(rsp11, 200),
+
+                SendATCommand("AT+QICLOSE");
+                GetResponse(rsp12, 200);
+
+                SendATCommand("AT+QIDEACT");
+                GetResponse(rsp13, 200);
+                
+                LED1Off();
+//                while(1);
+            }
+        }
+    }
 }
 
