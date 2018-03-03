@@ -38,6 +38,7 @@ unsigned char rsp10[100] = "";
 unsigned char rsp11[100] = "";
 unsigned char rsp12[100] = "";
 unsigned char rsp13[100] = "";
+unsigned char rsp14[100] = "";
 GSM_STATES gsm_state;
 
 void main (void) {
@@ -45,55 +46,67 @@ void main (void) {
     LedInit();
     ButtonInit();
     
-//    I2CInit();
-//    HTS221Init();
-//    HTS221Calibration();
+    I2CInit();
+    HTS221Init();
+    HTS221Calibration();
     UARTInit();
     GSMStart();
+    TRHCalc();
     
+    Wait(5000);
     LED1On();
         
     SendATCommand("AT");
-    GetResponse(rsp1, 100000);
+    GetResponse(rsp1, 200);
     
     SendATCommand("AT+CREG?");
-    GetResponse(rsp2, 200000);
+    GetResponse(rsp2, 200);
     
     SendATCommand("AT+QIMODE=0");
-    GetResponse(rsp3, 200000);
+    GetResponse(rsp3, 200);
     
     SendATCommand("AT+QICSGP=1,\"internet.telekom\"");
-    GetResponse(rsp4, 800000);
+    GetResponse(rsp4, 400);
     
     SendATCommand("AT+QIREGAPP");
-    GetResponse(rsp5, 200000);
+    GetResponse(rsp5, 400);
     
     SendATCommand("AT+QIACT");
-    GetResponse(rsp6, 100000);
+    GetResponse(rsp6, 400);
     
     SendATCommand("AT+QIDNSIP=1");
-    GetResponse(rsp7, 200000);
+    GetResponse(rsp7, 400);
 
     SendATCommand("AT+QIOPEN=\"TCP\",\"vocsabi.asuscomm.com\",\"2048\"");
-    GetResponse(rsp8, 800000);
+    GetResponse(rsp8, 800);
 
-    SendATCommand("AT+QISEND=4");
-    GetResponse(rsp9, 200000);
+    SendATCommand("AT+QISTAT");
+    GetResponse(rsp14, 200);
     
-    float value = 2.42f;
+    SendATCommand("AT+QISEND=4");
+    GetResponse(rsp9, 200);
+    
+//    float value = 2.42f;
         
-    SendDataFloat(value);
-    GetResponse(rsp10, 200000);
-    Wait(10000);
+    SendDataFloat(T);
+    GetResponse(rsp10, 200);
+    Wait(5000);
+   
+    SendATCommand("AT+QISEND=4");
+    GetResponse(rsp9, 200);
+    
+    SendDataFloat(RH);
+    GetResponse(rsp10, 200);
+    Wait(5000);
     
     SendATCommand("AT+QISACK");
-    GetResponse(rsp11, 200000),
+    GetResponse(rsp11, 200),
     
     SendATCommand("AT+QICLOSE");
-    GetResponse(rsp12, 100000);
+    GetResponse(rsp12, 200);
     
     SendATCommand("AT+QIDEACT");
-    GetResponse(rsp13, 100000);
+    GetResponse(rsp13, 200);
     while(1);
 //    char message[] = "Test message\n";
 //    SendSMS(message);

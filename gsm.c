@@ -7,15 +7,15 @@
 #include <stdbool.h>
 
 void GetResponse(char *buffer, int timeout) {
-    timeout = 2000000;
+    timeout *= 1000;
     long j = 0;
     unsigned char data;
 //    T2Init32bit(256, timeout);
     while(1) {
-        while(!UARTReceivedDataIsAvailable(UART_ID) && j < 800000) {
+        while(!UARTReceivedDataIsAvailable(UART_ID) && j < timeout) {
             j++;
         }
-        if(j < 800000) {
+        if(j < timeout) {
             data = UARTGetDataByte(UART_ID);
             *buffer = data;
             buffer++;

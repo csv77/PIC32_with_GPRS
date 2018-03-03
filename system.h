@@ -1,10 +1,3 @@
-/* 
- * File:   system.h
- * Author: Csabi
- *
- * Created on 2016. március 22., 20:01
- */
-
 #ifndef SYSTEM_H
 #define	SYSTEM_H
 

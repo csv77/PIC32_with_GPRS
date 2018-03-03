@@ -1,10 +1,3 @@
-/* 
- * File:   panel.h
- * Author: Csabi
- *
- * Created on 2016. március 22., 20:45
- */
-
 #ifndef PANEL_H
 #define	PANEL_H
 

@@ -1,10 +1,3 @@
-/* 
- * File:   fgv.h
- * Author: Csabi
- *
- * Created on 2016. április 3., 11:09
- */
-
 #ifndef FGV_H
 #define	FGV_H
 
