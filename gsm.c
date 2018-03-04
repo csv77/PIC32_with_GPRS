@@ -94,3 +94,20 @@ void SendDataFloat(float floatValue) {
     while(!UARTTransmissionHasCompleted(UART_ID))
         ;
 }
+
+void SendDataChar(char character) {
+    while(!UARTTransmitterIsReady(UART_ID))
+        ;
+    UARTSendDataByte(UART_ID, character);
+    while(!UARTTransmitterIsReady(UART_ID))
+        ;
+    UARTSendDataByte(UART_ID, 0x1A);
+    while(!UARTTransmitterIsReady(UART_ID))
+        ;
+    UARTSendDataByte(UART_ID, '\r');
+    while(!UARTTransmitterIsReady(UART_ID))
+        ;
+    UARTSendDataByte(UART_ID, '\n');
+    while(!UARTTransmissionHasCompleted(UART_ID))
+        ;
+}

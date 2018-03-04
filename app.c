@@ -38,12 +38,12 @@ void main (void) {
                 HTS221Init();
                 HTS221Calibration();
                 UARTInit();
+                LED1On();
                 
                 while(1) {
                     switch(gsm_state) {
                         case GSM_POWER_OFF :
                             GSMStart();
-                            LED1On();
                             break;
                         case GSM_POWER_ON :
                             SendATCommand("AT");
@@ -81,6 +81,7 @@ void main (void) {
                             GetResponse(rsp8, 800);
 
                             if(strstr(rsp8, "CONNECT OK") != NULL) {
+                                LED2On();
                                 gsm_state = GSM_TCP_CONNECTION_OPENED;
                             }
                             break;
@@ -90,7 +91,14 @@ void main (void) {
                                     Wait(1);
                                     if(SW2 == 1) {
                                         TRHCalc();
-
+                                        
+                                        SendATCommand("AT+QISEND=1");
+                                        GetResponse(rsp9, 200);
+                                        
+                                        SendDataChar('1');
+                                        GetResponse(rsp10, 200);
+                                        Wait(1000);
+                                        
                                         SendATCommand("AT+QISEND=4");
                                         GetResponse(rsp9, 200);
 
@@ -109,6 +117,12 @@ void main (void) {
                                 if(SW1 == 0) {
                                     Wait(1);
                                     if(SW1 == 1) {
+                                        SendATCommand("AT+QISEND=1");
+                                        GetResponse(rsp9, 200);
+                                        
+                                        SendDataChar('0');
+                                        GetResponse(rsp10, 200);
+                                        Wait(1000);
                                         break;
                                     }
                                 }
@@ -125,11 +139,12 @@ void main (void) {
                             break;
                     }
                     if(gsm_state == GSM_TCP_CONNECTION_CLOSED) {
-                        gsm_state == GSM_POWER_ON;
+                        gsm_state = GSM_POWER_ON;
                         break;
                     }
                 }
                 LED1Off();
+                LED2Off();
             }
         }
     }

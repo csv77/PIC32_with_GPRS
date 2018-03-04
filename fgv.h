@@ -38,6 +38,7 @@ void GetResponse(char *buffer, int timeout);
 void SendATCommand(unsigned char *buffer);
 void SendSMS(unsigned char *buffer);
 void SendDataFloat(float floatValue);
+void SendDataChar(char character);
 
 #endif	/* FGV_H */
 
