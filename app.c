@@ -74,10 +74,10 @@ void main (void) {
                             SendATCommand("AT+QIACT");
                             GetResponse(rsp6, 400);
 
-                            SendATCommand("AT+QIDNSIP=1");
+                            SendATCommand("AT+QIDNSIP=0");
                             GetResponse(rsp7, 400);
 
-                            SendATCommand("AT+QIOPEN=\"TCP\",\"vocsabi.asuscomm.com\",\"2048\"");
+                            SendATCommand("AT+QIOPEN=\"TCP\",\"173.249.44.63\",\"2048\"");
                             GetResponse(rsp8, 800);
 
                             if(strstr(rsp8, "CONNECT OK") != NULL) {
